@@ -23,4 +23,7 @@
 /nbbuild/
 /dist/
 /nbdist/
-/.nb-gradle/
+/.nb-gradle/data
+*/data/*
+*/data
+*data
