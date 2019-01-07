@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.19.BUILD-SNAPSHOT'
+		springBootVersion = '1.5.10.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -10,7 +10,9 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        // classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+        // tag::build[]
+        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+        // end::build[]
 	}
 }
 
@@ -19,11 +21,11 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-// apply plugin: 'com.palantir.docker'
+// tag::plugin[]
+apply plugin: 'com.palantir.docker'
+// end::plugin[]
 
 group = 'com.processoitau'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
 
 jar {
     baseName = 'collector'
@@ -36,11 +38,15 @@ jar {
 //     into("build/dependency")
 // }
 
-// docker {
-//     name "${project.group}/${bootJar.baseName}"
-//     copySpec.from(tasks.unpack.outputs).into("dependency")
-//     buildArgs(['DEPENDENCY': "dependency"])
-// }
+// tag::task[]
+docker {
+    name "${project.group}/${jar.baseName}"
+    files jar.archivePath
+    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+}
+// end::task[]
+
+sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -52,6 +58,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation("org.springframework.boot:spring-boot-starter-social-twitter")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('com.jayway.jsonpath:json-path')
 }
