@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.social.twitter.api.Twitter;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +29,8 @@ public class TwitterSearchController {
         this.repository = repository;
     }
 
-    @RequestMapping("/twitter/tag")
-    public List<Tweet> listByTag(@RequestParam(value = "tag", defaultValue = "java") String tag) {
+    @RequestMapping("/twitter/tag/{tag}")
+    public List<Tweet> listByTag(@PathVariable("tag") String tag) {
         List<Tweet> tweeties = TweetConverter.toList(twitter.searchOperations().search(tag).getTweets());
         
         repository.save(tweeties);
@@ -37,7 +38,7 @@ public class TwitterSearchController {
         return tweeties;
     }
     
-    @RequestMapping("/twitter/tag/all")
+    @RequestMapping("/twitter/tag")
     public List<Tweet> listAll() {
     	List<Tweet> tweeties = repository.findAll();
         
