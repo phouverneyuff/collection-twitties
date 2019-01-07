@@ -26,22 +26,9 @@ public class TwitterSearchController {
         this.twitter = twitter;
     }
 
-    @RequestMapping(value = "/twitter/hello", method = RequestMethod.GET)
-    public String showTrends() {
-        // model.addAttribute("timeline",
-        // twitter.searchOperations().search(query).getTweets());
-        return "twitter/timeline";
-    }
-
-    @RequestMapping("/twitter/tags")
+    @RequestMapping("/twitter/tag")
     public List<Tweet> greeting(@RequestParam(value = "tag", defaultValue = "java") String tag) {
         return twitter.searchOperations().search(tag).getTweets();
-    }
-
-    @RequestMapping(value = "/twitter/search", method = RequestMethod.GET)
-    public String showTrends(@RequestParam("query") String query, Model model) {
-        model.addAttribute("timeline", twitter.searchOperations().search(query).getTweets());
-        return "twitter/timeline";
     }
 
 }
