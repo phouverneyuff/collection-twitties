@@ -11,7 +11,7 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         // tag::build[]
-        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+        // classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
         // end::build[]
 	}
 }
@@ -22,14 +22,14 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 // tag::plugin[]
-apply plugin: 'com.palantir.docker'
+// apply plugin: 'com.palantir.docker'
 // end::plugin[]
 
 group = 'com.processoitau'
 
 jar {
     baseName = 'collector'
-    version =  '0.1.0'
+    version =  '0.2.0'
 }
 
 // task unpack(type: Copy) {
@@ -39,11 +39,11 @@ jar {
 // }
 
 // tag::task[]
-docker {
-    name "${project.group}/${jar.baseName}"
-    files jar.archivePath
-    buildArgs(['JAR_FILE': "${jar.archiveName}"])
-}
+// docker {
+//     name "${project.group}/${jar.baseName}"
+//     files jar.archivePath
+//     buildArgs(['JAR_FILE': "${jar.archiveName}"])
+// }
 // end::task[]
 
 sourceCompatibility = 1.8
@@ -55,9 +55,9 @@ repositories {
 }
 
 dependencies {
-    implementation('org.springframework.boot:spring-boot-starter-web')
-    implementation("org.springframework.boot:spring-boot-starter-social-twitter")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-starter-social-twitter")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('com.jayway.jsonpath:json-path')
