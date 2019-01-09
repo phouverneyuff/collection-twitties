@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
     mongodb:
         image: mongo:latest
@@ -12,6 +12,8 @@ services:
         ports:
             - 27017:27017
         command: mongod --smallfiles --logpath=/dev/null # --quiet
+        networks: 
+        - backend
     app:
         build: .
         image: phob/collection-twitties
@@ -23,3 +25,14 @@ services:
         - mongodb
         links:
         - mongodb
+        healthcheck:
+            test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+            # test: ["CMD-SHELL", "exit 0"]        
+            interval: 5s
+            timeout: 3s
+            retries: 2
+        networks: 
+        - backend
+networks:
+  backend:
+    name: backend
