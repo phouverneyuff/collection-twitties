@@ -27,7 +27,6 @@ services:
         - mongodb
         healthcheck:
             test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
-            # test: ["CMD-SHELL", "exit 0"]        
             interval: 5s
             timeout: 3s
             retries: 2
